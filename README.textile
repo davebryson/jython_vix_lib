@@ -1,0 +1,11 @@
+h2. Jython API wrapper for the VMWare VIX API
+
+This is the start of a Jython wrapper for the included "vixjava":http://vixjava.sourceforge.net/ library. It will eventually be included in the jython_esx_lib project.
+
+h3. Requirements:
+
+ * JDK 1.6
+ * Jython
+ * JNA (jar included)
+
+

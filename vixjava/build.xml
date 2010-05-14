@@ -1,0 +1,63 @@
+<!--
+   Build file for VIX Java. Requires environment variable JNADIR to be set,
+   which is the directory containing the jna.jar.
+-->
+<project default="compress-vix-java">
+
+   <property name="jna.dir" location="../deps" />
+   <property name="build.dir" value="build" />
+   <property name="vix.dir.src" value="src" />
+   <property name="vix.dir.classes" value="${build.dir}/classes" />
+   <property name="vix.jar" value="vix.jar" />
+   <property name="vix.build.jar" location="${build.dir}/${vix.jar}" />
+
+   <!-- Classpath for building VIX Java. -->
+   <path id="vix.classpath">
+      <fileset dir="${jna.dir}" includes="jna.jar" />
+   </path>
+   
+   <!--
+      Creates output directories.
+   -->
+   <target name="make-dirs" >
+      <mkdir dir="${build.dir}" />
+      <mkdir dir="${vix.dir.classes}" />
+   </target>
+
+   <!--
+      compile-vix-java
+      Compiles VIX Java code.
+   -->
+   <target name="compile-vix-java" depends="make-dirs">
+      <echo>Compiling VIX Java.</echo>
+      <javac srcdir="${vix.dir.src}" destdir="${vix.dir.classes}" fork="true" classpathref="vix.classpath" failonerror="true" debug="true">
+         <include name="**/*.java" />
+         <exclude name="**/VixHeaderToJava.java" />
+      </javac>
+   </target>
+
+   <!--
+      compress-vix-java
+      Compresses VIX Java source.
+   -->
+   <target name="compress-vix-java" depends="compile-vix-java">
+      <echo>Compressing VIX Java source.</echo>
+      <jar destfile="${vix.build.jar}">
+         <fileset dir="${vix.dir.classes}" includes="**/*.class" />
+         <fileset dir=".">
+            <include name="README.txt" />
+            <include name="License.txt" />
+         </fileset>
+      </jar>
+   </target>
+
+   <!--
+      clean-vix-java
+      Removes all .class files associated with VIX Java.
+   -->
+   <target name="clean">
+      <echo>Cleaning VIX Java code.</echo>
+      <delete includeEmptyDirs="true" quiet="true" dir="build"/>
+   </target>
+
+</project>
